@@ -1,0 +1,447 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<style>body{margin:0}</style>
+<title>Aleksander Duda</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+  /* Layout: sticky identity column on the left, scrolling CV sections on the right; stacks on phones */
+  :root {
+    --paper: #F3F5F7;
+    --surface: #FFFFFF;
+    --ink: #14202B;
+    --muted: #5B6876;
+    --line: #D8DEE5;
+    --accent: #2F5BD3;
+    --accent-soft: #E3EAFB;
+    --pass: #1F8A5B;
+    --f-display: "Bricolage Grotesque", "Helvetica Neue", Arial, sans-serif;
+    --f-body: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+    --f-mono: "IBM Plex Mono", ui-monospace, Menlo, monospace;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      color-scheme: dark;
+      --paper: #0F151C; --surface: #16202A; --ink: #E6ECF2; --muted: #93A1B0;
+      --line: #263341; --accent: #7DA2FF; --accent-soft: #1C2A45; --pass: #4CC38A;
+    }
+  }
+  :root[data-theme="dark"] {
+    color-scheme: dark;
+    --paper: #0F151C; --surface: #16202A; --ink: #E6ECF2; --muted: #93A1B0;
+    --line: #263341; --accent: #7DA2FF; --accent-soft: #1C2A45; --pass: #4CC38A;
+  }
+
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } * { transition: none !important; } }
+  body {
+    background: var(--paper); color: var(--ink);
+    font-family: var(--f-body); font-size: 16px; line-height: 1.6;
+    padding-left: max(16px, env(safe-area-inset-left, 0px));
+    padding-right: max(16px, env(safe-area-inset-right, 0px));
+  }
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  a:focus-visible, button:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 4px; }
+
+  /* Language switch: hide the copy that doesn't match the chosen language */
+  #app[data-lang="en"] [data-l="pl"],
+  #app[data-lang="pl"] [data-l="en"] { display: none !important; }
+
+  .wrap {
+    max-width: 1100px; margin: 0 auto; padding-block: 56px 80px;
+    display: grid; grid-template-columns: 300px 1fr; gap: 64px; align-items: start;
+  }
+
+  /* Identity column */
+  .id { position: sticky; top: calc(env(safe-area-inset-top, 0px) + 40px); display: grid; gap: 28px; }
+  .id-top { display: flex; justify-content: space-between; align-items: center; gap: 16px; }
+  .monogram {
+    width: 72px; height: 72px; border-radius: 50%;
+    display: grid; place-items: center;
+    background: var(--accent); color: var(--paper);
+    font-family: var(--f-display); font-weight: 700; font-size: 26px; letter-spacing: .02em;
+  }
+  .lang-switch { display: inline-flex; border: 1px solid var(--line); border-radius: 999px; padding: 3px; background: var(--surface); }
+  .lang-switch button {
+    font: 500 12px/1 var(--f-mono); letter-spacing: .06em; color: var(--muted);
+    background: transparent; border: 0; border-radius: 999px; padding: 7px 12px; cursor: pointer;
+    transition: background .2s, color .2s;
+  }
+  .lang-switch button:hover { color: var(--ink); }
+  .lang-switch button[aria-pressed="true"] { background: var(--accent); color: var(--paper); }
+  .id h1 {
+    font-family: var(--f-display); font-weight: 700; font-size: 44px; line-height: 1.02;
+    letter-spacing: -.02em; margin: 0; text-wrap: balance;
+  }
+  .role { margin: 8px 0 0; color: var(--muted); font-size: 17px; }
+  .status { display: inline-flex; align-items: center; gap: 8px; margin-top: 12px; font-family: var(--f-mono); font-size: 12px; color: var(--pass); }
+  .status::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--pass); }
+  .contact { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; font-size: 14px; }
+  .contact li { display: grid; grid-template-columns: 70px 1fr; gap: 8px; overflow-wrap: anywhere; }
+  .contact .k { font-family: var(--f-mono); font-size: 12px; color: var(--muted); text-transform: uppercase; letter-spacing: .06em; padding-top: 2px; }
+  nav ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 2px; border-left: 1px solid var(--line); }
+  nav a {
+    display: block; padding: 4px 0 4px 14px; margin-left: -1px; border-left: 2px solid transparent;
+    color: var(--muted); font-size: 14px; transition: color .2s, border-color .2s;
+  }
+  nav a:hover { color: var(--ink); text-decoration: none; }
+  nav a.active { color: var(--ink); border-left-color: var(--accent); font-weight: 500; }
+
+  /* Content */
+  main { display: grid; gap: 64px; min-width: 0; }
+  section { scroll-margin-top: 40px; }
+  h2 {
+    font-family: var(--f-mono); font-weight: 500; font-size: 12px; text-transform: uppercase;
+    letter-spacing: .12em; color: var(--muted); margin: 0 0 20px;
+    display: flex; align-items: center; gap: 12px;
+  }
+  h2::after { content: ""; flex: 1; height: 1px; background: var(--line); }
+  .lead { font-family: var(--f-display); font-weight: 500; font-size: 28px; line-height: 1.25; margin: 0; max-width: 32ch; text-wrap: balance; letter-spacing: -.01em; }
+  .lead em { font-style: normal; color: var(--accent); }
+  .about p { max-width: 64ch; color: var(--muted); }
+  .facts { display: flex; flex-wrap: wrap; gap: 12px 40px; margin: 24px 0 0; }
+  .facts div { display: grid; }
+  .facts dt { order: 2; font-size: 13px; color: var(--muted); }
+  .facts dd { order: 1; margin: 0; font-family: var(--f-display); font-weight: 700; font-size: 30px; line-height: 1.1; font-variant-numeric: tabular-nums; }
+  .clients { margin-top: 20px; font-size: 14px; color: var(--muted); }
+  .clients b { color: var(--ink); font-weight: 500; }
+
+  .jobs { display: grid; gap: 40px; }
+  .job { display: grid; grid-template-columns: 130px 1fr; gap: 24px; }
+  .stack { display: flex; flex-wrap: wrap; align-content: start; gap: 6px; padding-top: 4px; }
+  .stack span { font-family: var(--f-mono); font-size: 12px; padding: 1px 8px; border: 1px solid var(--line); border-radius: 4px; color: var(--muted); }
+  .job h3 { font-family: var(--f-display); font-weight: 700; font-size: 21px; margin: 0; letter-spacing: -.01em; }
+  .org { color: var(--accent); font-weight: 500; font-size: 15px; }
+  .job p { margin: 8px 0 0; color: var(--muted); max-width: 66ch; }
+  .job p b { color: var(--ink); font-weight: 600; }
+
+  .skills { display: grid; gap: 20px; }
+  .skill-row { display: grid; grid-template-columns: 130px 1fr; gap: 24px; }
+  .skill-row h3, .sub { font-size: 14px; font-weight: 600; margin: 4px 0 0; }
+  .sub { margin: 0 0 10px; }
+  .chips { display: flex; flex-wrap: wrap; gap: 8px; }
+  .chip { padding: 4px 12px; border-radius: 999px; background: var(--accent-soft); color: var(--ink); font-size: 14px; }
+  .chip small { font-family: var(--f-mono); font-size: 11px; color: var(--accent); margin-left: 6px; }
+  .chip.basic { background: transparent; border: 1px solid var(--line); color: var(--muted); }
+  .legend { font-size: 12px; color: var(--muted); font-family: var(--f-mono); margin: 0; }
+
+  .langs { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; max-width: 560px; }
+  .lang { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 16px; display: grid; gap: 10px; }
+  .lang-top { display: flex; justify-content: space-between; align-items: baseline; }
+  .lang b { font-weight: 600; }
+  .lvl { font-family: var(--f-mono); font-size: 13px; color: var(--accent); }
+  .scale { display: grid; grid-template-columns: repeat(6, 1fr); gap: 3px; }
+  .scale i { height: 5px; border-radius: 2px; background: var(--line); }
+  .scale i.on { background: var(--accent); }
+  .scale-labels { display: grid; grid-template-columns: repeat(6, 1fr); font-family: var(--f-mono); font-size: 10px; color: var(--muted); text-align: center; }
+
+  .two { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
+  .plain { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; color: var(--muted); }
+  .plain li::before { content: "✓"; color: var(--pass); margin-right: 10px; font-family: var(--f-mono); }
+
+  footer { color: var(--muted); font-size: 12px; font-family: var(--f-mono); border-top: 1px solid var(--line); padding-top: 16px; }
+
+  @media (max-width: 860px) {
+    .wrap { grid-template-columns: 1fr; gap: 48px; padding-block: 32px 56px; }
+    .id { position: static; }
+    nav { display: none; }
+    .id h1 { font-size: 38px; }
+  }
+  @media (max-width: 560px) {
+    .job, .skill-row { grid-template-columns: 1fr; gap: 8px; }
+    .job .stack { order: 2; }
+    .langs, .two { grid-template-columns: 1fr; }
+    .lead { font-size: 23px; }
+  }
+</style>
+
+</head>
+<body>
+<div class="wrap" id="app" data-lang="en">
+  <aside class="id">
+    <div class="id-top">
+      <div class="monogram" aria-hidden="true">AD</div>
+      <div class="lang-switch" role="group" aria-label="Language / Język">
+        <button type="button" id="btn-en" data-set="en" aria-pressed="true">EN</button>
+        <button type="button" id="btn-pl" data-set="pl" aria-pressed="false">PL</button>
+      </div>
+    </div>
+    <div>
+      <h1>Aleksander Duda</h1>
+      <p class="role">Senior QA / Test Automation Engineer</p>
+      <span class="status"><span data-l="en">Remote · 6 years</span><span data-l="pl">Zdalnie · 6 lat</span></span>
+    </div>
+    <ul class="contact">
+      <li><span class="k">E-mail</span><a href="mailto:aleksanderduda1@gmail.com">aleksanderduda1@gmail.com</a></li>
+      <li><span class="k">LinkedIn</span><a href="https://www.linkedin.com/in/dudu2137" target="_blank" rel="noopener">linkedin.com/in/dudu2137</a></li>
+    </ul>
+    <nav aria-label="CV">
+      <ul>
+        <li><a href="#summary"><span data-l="en">Summary</span><span data-l="pl">O mnie</span></a></li>
+        <li><a href="#experience"><span data-l="en">Experience</span><span data-l="pl">Doświadczenie</span></a></li>
+        <li><a href="#skills"><span data-l="en">Skills</span><span data-l="pl">Umiejętności</span></a></li>
+        <li><a href="#education"><span data-l="en">Education</span><span data-l="pl">Wykształcenie</span></a></li>
+        <li><a href="#languages"><span data-l="en">Languages</span><span data-l="pl">Języki</span></a></li>
+        <li><a href="#more"><span data-l="en">More about me</span><span data-l="pl">Więcej o mnie</span></a></li>
+      </ul>
+    </nav>
+  </aside>
+
+  <main>
+    <section id="summary" class="about">
+      <h2><span data-l="en">Summary</span><span data-l="pl">O mnie</span></h2>
+      <p class="lead" data-l="en">Test automation specialist with <em>10+ years</em> of experience in web and mobile apps.</p>
+      <p class="lead" data-l="pl">Specjalista od automatyzacji testów z <em>ponad 10-letnim</em> doświadczeniem w aplikacjach webowych i mobilnych.</p>
+      <p data-l="en">QA / Test Automation Engineer with a background in banking, automotive, energy, healthcare and e-commerce. I have worked in small startups and on large projects, both as the person responsible for QA as a whole and as one of many test automation engineers on a team.</p>
+      <p data-l="pl">QA / Test Automation Engineer z doświadczeniem w bankowości, motoryzacji, energetyce, ochronie zdrowia i e-commerce. Pracowałem w małych startupach i przy dużych projektach, zarówno jako osoba odpowiedzialna za całe QA, jak i jako jeden z wielu inżynierów automatyzacji w zespole.</p>
+      <dl class="facts">
+        <div><dt><span data-l="en">years in QA</span><span data-l="pl">lat w QA</span></dt><dd>10+</dd></div>
+        <div><dt><span data-l="en">years remote</span><span data-l="pl">lat zdalnie</span></dt><dd>6</dd></div>
+        <div><dt><span data-l="en">with Cypress</span><span data-l="pl">z Cypressem</span></dt><dd><span data-l="en">4+ yrs</span><span data-l="pl">4+ lata</span></dd></div>
+        <div><dt><span data-l="en">QA engineers led</span><span data-l="pl">osób w zespole QA</span></dt><dd>5</dd></div>
+      </dl>
+      <p class="clients"><span data-l="en">Projects for</span><span data-l="pl">Projekty dla</span> <b>BMW</b>, <b>Gemalto (Thales)</b>, <b>Interone</b>, <b>Oculus VR</b>, <b>EnBW</b>, <b>Nexi</b> <span data-l="en">and</span><span data-l="pl">i</span> <b>Costco</b>.</p>
+    </section>
+
+    <section id="experience">
+      <h2><span data-l="en">Work experience</span><span data-l="pl">Doświadczenie zawodowe</span></h2>
+      <div class="jobs">
+        <article class="job">
+          <div class="stack"><span>Cucumber</span><span>JS</span></div>
+          <div>
+            <h3>Senior Test Automation Engineer</h3>
+            <div class="org">Costco</div>
+            <p data-l="en">Costco is an American corporation operating a chain of membership-only warehouse club stores. I worked on test automation for the Costco WeChat MiniProgram app, maintaining existing tests and developing new ones for the mobile platform.</p>
+            <p data-l="pl">Costco to amerykańska sieć hurtowni klubowych dostępnych tylko dla członków. Zajmowałem się automatyzacją testów aplikacji Costco WeChat MiniProgram: utrzymaniem istniejących testów i tworzeniem nowych na platformę mobilną.</p>
+          </div>
+        </article>
+        <article class="job">
+          <div class="stack"><span>Spock</span><span>Groovy</span></div>
+          <div>
+            <h3>Senior Test Automation Engineer</h3>
+            <div class="org">Nexi Digital (Nexi, Nets)</div>
+            <p data-l="en">Nets is a Scandinavian PayTech company. I was part of the test automation team that designed and developed the testing framework for new and existing clients, products and card payments. All tests ran on an emulated environment mirroring production, with close attention to security. We also supported clients in the <b>Visa and Mastercard certification</b> and verification process.</p>
+            <p data-l="pl">Nets to skandynawska firma PayTech. Byłem w zespole inżynierów automatyzacji, który projektował i rozwijał framework testowy dla nowych i obecnych klientów, produktów oraz płatności kartowych. Testy działały na emulowanym środowisku odwzorowującym produkcję, z dużym naciskiem na bezpieczeństwo. Wspieraliśmy też klientów w procesie <b>certyfikacji Visa i Mastercard</b>.</p>
+          </div>
+        </article>
+        <article class="job">
+          <div class="stack"><span>Playwright</span><span>JS</span></div>
+          <div>
+            <h3>Senior Test Automation Engineer</h3>
+            <div class="org">BMW Group</div>
+            <p data-l="en">Audited the existing test suites, scenarios and framework. Took part in migrating from one backend and API to another while keeping backward compatibility. Worked in a cross-functional team of manual and automation testers, developers and designers.</p>
+            <p data-l="pl">Przeprowadziłem audyt istniejących zestawów testów, scenariuszy i frameworka. Brałem udział w migracji na nowy backend i API z zachowaniem kompatybilności wstecznej. Pracowałem w zespole cross-funkcyjnym z testerami manualnymi i automatyzującymi, programistami i projektantami.</p>
+          </div>
+        </article>
+        <article class="job">
+          <div class="stack"><span>Cypress</span><span>JS</span></div>
+          <div>
+            <h3>Senior QA Engineer / Test Automation Engineer</h3>
+            <div class="org">EnBW</div>
+            <p data-l="en">EnBW is one of the biggest energy providers in Germany. The focus was on two mirror apps, EnBW and Yello, plus the EnBW web portal: invoices, payments, meter readings, offers and new contracts. I was responsible for quality assurance with a strong focus on automation, <b>built the testing framework from scratch</b>, advised the team on QA and looked after the QA and SDLC process.</p>
+            <p data-l="pl">EnBW to jeden z największych dostawców energii w Niemczech. Projekt obejmował dwie bliźniacze aplikacje, EnBW i Yello, oraz portal webowy EnBW: faktury, płatności, odczyty liczników, oferty i zawieranie umów. Odpowiadałem za jakość z naciskiem na automatyzację, <b>zbudowałem framework testowy od zera</b>, doradzałem zespołowi w sprawach QA i dbałem o procesy QA i SDLC.</p>
+          </div>
+        </article>
+        <article class="job">
+          <div class="stack"><span>Cypress</span><span>JS</span></div>
+          <div>
+            <h3>Senior QA Engineer / QA Lead</h3>
+            <div class="org">Nursa (ITCraftship)</div>
+            <p data-l="en">A US healthcare startup connecting hospitals and health facilities with nurses for contract shifts, covering the full process from matching through contracts to payment. I joined when the team had <b>fewer than 10 people</b> and left when it had <b>more than 200</b> across several cross-functional teams. I went from manual QA, to building a framework with <b>200+ UI E2E tests</b>, to leading QA for the project. The product was a hybrid Android/iOS app and a web portal with three account types (nurse, facility, admin).</p>
+            <p data-l="pl">Amerykański startup z branży medycznej, łączący szpitale i placówki z pielęgniarkami na pojedyncze dyżury: od dopasowania, przez umowy, po płatność. Dołączyłem, gdy zespół liczył <b>mniej niż 10 osób</b>, a odchodziłem, gdy było to <b>ponad 200 osób</b> w kilku zespołach. Zacząłem od testów manualnych, potem zbudowałem framework z <b>ponad 200 testami UI E2E</b>, a na końcu prowadziłem całe QA w projekcie. Produkt to hybrydowa aplikacja na Androida i iOS oraz portal webowy z trzema typami kont (pielęgniarka, placówka, administrator).</p>
+          </div>
+        </article>
+        <article class="job">
+          <div class="stack"><span>Appium</span><span>JS</span></div>
+          <div>
+            <h3>Senior QA Engineer / QA Lead</h3>
+            <div class="org">Fitatu</div>
+            <p data-l="en">A calorie counter app with millions of users in Europe. I owned the QA process and <b>led a team of 5 QA engineers</b>, manual and automated. I also built the Appium-based testing framework for the native Android and iOS apps.</p>
+            <p data-l="pl">Licznik kalorii z milionami użytkowników w Europie. Odpowiadałem za proces QA i <b>prowadziłem zespół 5 testerów</b>, manualnych i automatyzujących. Zbudowałem też framework testowy oparty na Appium dla natywnych aplikacji na Androida i iOS.</p>
+          </div>
+        </article>
+        <article class="job">
+          <div class="stack"><span>NightwatchJS</span><span>JS</span><span>AEM</span></div>
+          <div>
+            <h3>AEM QA Engineer</h3>
+            <div class="org">BMW Group</div>
+            <p data-l="en">Rewriting, changing and migrating components of the BMW portal built on Adobe Experience Manager. I did manual and regression testing with some automation, then was asked to set up and <b>lead the Defect Management team</b> (2 backend and 2 frontend engineers). We triaged defects reported from different markets, created fix tickets and retested them.</p>
+            <p data-l="pl">Przepisywanie, zmiany i migracja komponentów portalu BMW opartego na Adobe Experience Manager. Wykonywałem testy manualne i regresyjne oraz część automatyzacji, a potem zostałem poproszony o stworzenie i <b>prowadzenie zespołu Defect Management</b> (2 osoby backend i 2 frontend). Analizowaliśmy błędy zgłaszane z różnych rynków, zakładaliśmy zgłoszenia do poprawy i je retestowaliśmy.</p>
+          </div>
+        </article>
+        <article class="job">
+          <div class="stack"><span>Selenium</span><span>Java</span></div>
+          <div>
+            <h3>QA Engineer</h3>
+            <div class="org">itCraft</div>
+            <p data-l="en">A software house building client apps and its own startup products in lifestyle, healthcare, fitness and retail. I started as a manual QA and later began test automation as my R&amp;D work.</p>
+            <p data-l="pl">Software house tworzący aplikacje dla klientów i własne produkty startupowe: lifestyle, medycyna, fitness, handel. Zaczynałem jako tester manualny, a później w ramach R&amp;D rozpocząłem automatyzację testów.</p>
+          </div>
+        </article>
+        <article class="job">
+          <div class="stack"><span data-l="en">Internal tools</span><span data-l="pl">Narzędzia wewnętrzne</span></div>
+          <div>
+            <h3>Software Engineer</h3>
+            <div class="org">Gemalto / Thales</div>
+            <p data-l="en">Thales is a global leader in defense, aerospace and digital security. Our branch produced banking cards, gift cards, passports and other microchip products. I built software that converted encrypted client data files into a format our machines could read, and worked on personalization and testing of <b>NFC smart cards</b>.</p>
+            <p data-l="pl">Thales to światowy lider w obronności, lotnictwie i bezpieczeństwie cyfrowym. Nasz oddział produkował karty płatnicze, karty podarunkowe, paszporty i inne produkty z mikroprocesorem. Tworzyłem oprogramowanie konwertujące zaszyfrowane pliki danych klientów do formatu czytelnego dla maszyn produkcyjnych oraz zajmowałem się personalizacją i testami <b>kart NFC</b>.</p>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section id="skills">
+      <h2><span data-l="en">Skills</span><span data-l="pl">Umiejętności</span></h2>
+      <div class="skills">
+        <div class="skill-row"><h3><span data-l="en">Test automation</span><span data-l="pl">Automatyzacja</span></h3><div class="chips">
+          <span class="chip">Cypress<small data-l="en">4+ yrs</small><small data-l="pl">4+ lata</small></span>
+          <span class="chip">Playwright<small data-l="en">2+ yrs</small><small data-l="pl">2+ lata</small></span>
+          <span class="chip">Spock</span><span class="chip">Appium</span><span class="chip">Selenium</span>
+          <span class="chip">Nightwatch.js</span><span class="chip">Detox</span><span class="chip">TestCafe</span><span class="chip">Cucumber</span>
+        </div></div>
+        <div class="skill-row"><h3><span data-l="en">Languages</span><span data-l="pl">Języki programowania</span></h3><div class="chips">
+          <span class="chip">JavaScript<small data-l="en">4+ yrs</small><small data-l="pl">4+ lata</small></span>
+          <span class="chip">Java / Groovy<small data-l="en">2+ yrs</small><small data-l="pl">2+ lata</small></span>
+          <span class="chip">TypeScript<small data-l="en">1 yr</small><small data-l="pl">1 rok</small></span>
+          <span class="chip basic">Python</span><span class="chip basic">SQL</span><span class="chip basic">Gherkin</span>
+          <span class="chip">HTML</span><span class="chip">CSS</span>
+        </div></div>
+        <div class="skill-row"><h3><span data-l="en">Testing</span><span data-l="pl">Testowanie</span></h3><div class="chips">
+          <span class="chip"><span data-l="en">Manual testing (web, mobile, software)</span><span data-l="pl">Testy manualne (web, mobile, desktop)</span></span>
+          <span class="chip">HTTP / DevTools</span>
+          <span class="chip basic">Postman</span><span class="chip basic">JMeter</span><span class="chip basic">Apache Kafka</span>
+          <span class="chip">Firebase</span><span class="chip">Sentry</span>
+        </div></div>
+        <div class="skill-row"><h3>CI / Mobile</h3><div class="chips">
+          <span class="chip">Jenkins</span><span class="chip">Bitbucket</span><span class="chip">Azure DevOps</span>
+          <span class="chip">PhoneGap</span><span class="chip">AppCenter</span><span class="chip">Expo</span><span class="chip">Bitrise</span><span class="chip">TestFlight</span>
+          <span class="chip"><span data-l="en">Linux terminal</span><span data-l="pl">Terminal Linux</span></span>
+        </div></div>
+        <div class="skill-row"><h3><span data-l="en">Process &amp; tools</span><span data-l="pl">Procesy i narzędzia</span></h3><div class="chips">
+          <span class="chip">CI/CD</span><span class="chip">Scrum</span><span class="chip">Kanban</span><span class="chip">SAFe</span>
+          <span class="chip">Jira</span><span class="chip">HP ALM</span><span class="chip">Mantis</span>
+          <span class="chip">Xray</span><span class="chip">TestRail</span><span class="chip">Azure Test Plans</span>
+          <span class="chip basic">AEM</span><span class="chip">GitHub Copilot</span>
+        </div></div>
+        <p class="legend"><span data-l="en">Outlined = basic knowledge</span><span data-l="pl">Obramowane = znajomość podstawowa</span></p>
+      </div>
+    </section>
+
+    <section id="education">
+      <h2><span data-l="en">Education</span><span data-l="pl">Wykształcenie</span></h2>
+      <article class="job">
+        <div class="stack"><span data-l="en">B.Eng.</span><span data-l="pl">inż.</span></div>
+        <div>
+          <h3><span data-l="en">Electronics and Telecommunications</span><span data-l="pl">Elektronika i Telekomunikacja</span></h3>
+          <div class="org"><span data-l="en">Gdańsk University of Technology</span><span data-l="pl">Politechnika Gdańska</span></div>
+          <p data-l="en">Specialization: Radiocommunication Networks and Systems.<br>Engineer's thesis: <b>Laboratory Test-bed for Testing Components of Sensor Networks</b>.</p>
+          <p data-l="pl">Specjalność: Sieci i Systemy Radiokomunikacyjne.<br>Praca inżynierska: <b>Laboratoryjne stanowisko do testowania komponentów sieci sensorowych</b>.</p>
+        </div>
+      </article>
+    </section>
+
+    <section id="languages">
+      <h2><span data-l="en">Languages</span><span data-l="pl">Języki</span></h2>
+      <div class="langs" id="langs"></div>
+    </section>
+
+    <section id="more">
+      <h2><span data-l="en">More about me</span><span data-l="pl">Więcej o mnie</span></h2>
+      <div class="two">
+        <div>
+          <h3 class="sub"><span data-l="en">Soft skills</span><span data-l="pl">Umiejętności miękkie</span></h3>
+          <ul class="plain" data-l="en">
+            <li>Punctuality and good organization</li>
+            <li>Individual and team work</li>
+            <li>Fast learning</li>
+            <li>Good interpersonal skills</li>
+            <li>Good manners</li>
+          </ul>
+          <ul class="plain" data-l="pl">
+            <li>Punktualność i dobra organizacja</li>
+            <li>Praca samodzielna i zespołowa</li>
+            <li>Szybkie uczenie się</li>
+            <li>Dobre umiejętności interpersonalne</li>
+            <li>Kultura osobista</li>
+          </ul>
+        </div>
+        <div>
+          <h3 class="sub"><span data-l="en">Interests</span><span data-l="pl">Zainteresowania</span></h3>
+          <ul class="plain" data-l="en">
+            <li>Car mechanics and detailing</li>
+            <li>Sports shooting</li>
+            <li>Bike freeriding</li>
+          </ul>
+          <ul class="plain" data-l="pl">
+            <li>Mechanika samochodowa i detailing</li>
+            <li>Strzelectwo sportowe</li>
+            <li>Rowerowy freeride</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <span data-l="en">I hereby consent to the processing of my personal data for the purposes necessary to carry out the recruitment process, in accordance with Regulation (EU) 2016/679 of the European Parliament and of the Council of 27 April 2016 on the protection of natural persons with regard to the processing of personal data and on the free movement of such data (GDPR).</span>
+      <span data-l="pl">Wyrażam zgodę na przetwarzanie moich danych osobowych dla potrzeb niezbędnych do realizacji procesu rekrutacji, zgodnie z Rozporządzeniem Parlamentu Europejskiego i Rady (UE) 2016/679 z dnia 27 kwietnia 2016 r. w sprawie ochrony osób fizycznych w związku z przetwarzaniem danych osobowych i w sprawie swobodnego przepływu takich danych (RODO).</span>
+    </footer>
+  </main>
+</div>
+
+<script>
+  // Language levels on the CEFR scale
+  const CEFR = ["A1","A2","B1","B2","C1","C2"];
+  const LANGS = [
+    { name: { en: "Polish", pl: "Polski" }, level: "C2", note: { en: "Native", pl: "Ojczysty" } },
+    { name: { en: "English", pl: "Angielski" }, level: "C1", note: { en: "Advanced · C1", pl: "Zaawansowany · C1" } },
+  ];
+  const app = document.getElementById("app");
+  const buttons = [...document.querySelectorAll(".lang-switch button")];
+
+  function renderLangs(lang) {
+    document.getElementById("langs").innerHTML = LANGS.map(l => {
+      const idx = CEFR.indexOf(l.level);
+      return `<div class="lang">
+        <div class="lang-top"><b>${l.name[lang]}</b><span class="lvl">${l.note[lang]}</span></div>
+        <div class="scale" aria-label="${l.level}">${CEFR.map((_, i) => `<i class="${i <= idx ? "on" : ""}"></i>`).join("")}</div>
+        <div class="scale-labels" aria-hidden="true">${CEFR.map(c => `<span>${c}</span>`).join("")}</div>
+      </div>`;
+    }).join("");
+  }
+
+  function setLang(lang) {
+    app.dataset.lang = lang;
+    document.documentElement.lang = lang;
+    buttons.forEach(b => b.setAttribute("aria-pressed", String(b.dataset.set === lang)));
+    renderLangs(lang);
+    try { localStorage.setItem("cv-lang", lang); } catch (e) {}
+  }
+
+  // Start language: ?lang=pl in the URL, then the last choice, then the browser language
+  let start = new URLSearchParams(location.search).get("lang");
+  if (!start) { try { start = localStorage.getItem("cv-lang"); } catch (e) {} }
+  if (!start) start = (navigator.language || "en").toLowerCase().startsWith("pl") ? "pl" : "en";
+  setLang(start === "pl" ? "pl" : "en");
+  buttons.forEach(b => b.addEventListener("click", () => setLang(b.dataset.set)));
+
+  // Highlight the active section in the menu
+  const links = [...document.querySelectorAll("nav a")];
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        links.forEach(a => a.classList.toggle("active", a.getAttribute("href") === "#" + e.target.id));
+      }
+    });
+  }, { rootMargin: "-30% 0px -60% 0px" });
+  document.querySelectorAll("main section").forEach(s => obs.observe(s));
+  links[0]?.classList.add("active");
+</script>
+</body>
+</html>
