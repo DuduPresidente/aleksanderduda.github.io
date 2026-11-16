@@ -158,6 +158,17 @@
 
   footer { color: var(--muted); font-size: 12px; font-family: var(--f-mono); border-top: 1px solid var(--line); padding-top: 16px; }
 
+  /* Small PDF download pill next to the language switch; one link per language */
+  .id-tools { display: flex; align-items: center; gap: 8px; }
+  .pdf-btn {
+    display: inline-flex; align-items: center; gap: 6px; height: 34px; padding: 0 12px 0 10px;
+    border: 1px solid var(--line); border-radius: 999px; background: var(--surface);
+    font: 500 12px/1 var(--f-mono); letter-spacing: .06em; color: var(--muted); transition: color .2s, border-color .2s;
+  }
+  .pdf-btn svg { width: 14px; height: 14px; flex: none; }
+  .pdf-btn:hover { color: var(--accent); border-color: var(--accent); text-decoration: none; }
+  .print-only { display: none; }
+
   @media (max-width: 860px) {
     .wrap { grid-template-columns: 1fr; gap: 48px; padding-block: 32px 56px; }
     .id { position: static; }
@@ -172,6 +183,20 @@
     .langs, .two { grid-template-columns: 1fr; }
     .lead { font-size: 23px; }
   }
+
+  /* Print / PDF: one column, no navigation or buttons, jobs kept whole */
+  @media print {
+    @page { size: A4; margin: 12mm 14mm; }
+    body { padding: 0; background: #fff; zoom: .8; }
+    .wrap { display: block; max-width: none; padding: 0; }
+    .id { position: static; gap: 14px; margin-bottom: 28px; }
+    .id-top, nav, .pdf-btn { display: none !important; }
+    .contact li.print-only { display: grid; }
+    main { gap: 32px; }
+    .job, .skill-row, .lang, .facts { break-inside: avoid; }
+    h2 { break-after: avoid; }
+    footer { font-size: 9px; }
+  }
 </style>
 
 </head>
@@ -180,9 +205,13 @@
   <aside class="id">
     <div class="id-top">
       <div class="monogram" aria-hidden="true">AD</div>
-      <div class="lang-switch" role="group" aria-label="Language / Język">
-        <button type="button" id="btn-en" data-set="en" aria-pressed="true">EN</button>
-        <button type="button" id="btn-pl" data-set="pl" aria-pressed="false">PL</button>
+      <div class="id-tools">
+        <a class="pdf-btn" data-l="en" href="Aleksander_Duda_CV_EN.pdf" download aria-label="Download CV (PDF)" title="Download CV (PDF)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M5 21h14"/></svg>PDF</a>
+        <a class="pdf-btn" data-l="pl" href="Aleksander_Duda_CV_PL.pdf" download aria-label="Pobierz CV (PDF)" title="Pobierz CV (PDF)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M5 21h14"/></svg>PDF</a>
+        <div class="lang-switch" role="group" aria-label="Language / Język">
+          <button type="button" id="btn-en" data-set="en" aria-pressed="true">EN</button>
+          <button type="button" id="btn-pl" data-set="pl" aria-pressed="false">PL</button>
+        </div>
       </div>
     </div>
     <div>
@@ -193,6 +222,7 @@
     <ul class="contact">
       <li><span class="k">E-mail</span><a href="mailto:aleksanderduda1@gmail.com">aleksanderduda1@gmail.com</a></li>
       <li><span class="k">LinkedIn</span><a href="https://www.linkedin.com/in/dudu2137" target="_blank" rel="noopener">linkedin.com/in/dudu2137</a></li>
+      <li class="print-only"><span class="k">WWW</span><a href="https://aleksanderduda.eu">aleksanderduda.eu</a></li>
     </ul>
     <nav aria-label="CV">
       <ul>
