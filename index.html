@@ -186,7 +186,42 @@
   }
   .pdf-btn svg { width: 14px; height: 14px; flex: none; }
   .pdf-btn:hover { color: var(--accent); border-color: var(--accent); text-decoration: none; }
-  .print-only { display: none; }
+  .print-only, .contact li.print-only { display: none; }
+
+  /* Meeting call-to-action: a card under the contacts on phones, a floating tile at the bottom right from tablets up */
+  .cta { justify-self: start; width: 100%; max-width: 300px; display: grid; gap: 12px; padding: 16px; border: 1px solid var(--line); border-radius: 12px; background: var(--surface); }
+  .cta p { margin: 0; font-family: var(--f-display); font-weight: 500; font-size: 18px; line-height: 1.25; }
+  .cta-btn {
+    display: inline-flex; justify-content: center; align-items: center; gap: 8px;
+    padding: 11px 16px; border-radius: 999px; background: var(--accent); color: var(--paper);
+    font-weight: 600; font-size: 15px; transition: opacity .2s;
+  }
+  .cta-btn svg { width: 16px; height: 16px; flex: none; transition: transform .2s; }
+  .cta-btn:hover { text-decoration: none; opacity: .9; }
+  .cta-btn:hover svg { transform: translateX(3px); }
+  @media (min-width: 768px) {
+    /* The sticky identity column is a stacking context; lift it so the tile paints above the CV */
+    .id { z-index: 10; }
+    .cta {
+      position: fixed; z-index: 10; right: 0; bottom: calc(env(safe-area-inset-bottom, 0px) + 24px);
+      width: auto; max-width: none; display: flex; align-items: center; gap: 14px;
+      gap: 0; padding: 8px 10px 8px 14px; border: 1px solid var(--accent); border-right: 0; border-radius: 10px 0 0 10px;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, .18);
+    }
+    .cta p { font-size: 14px; white-space: nowrap; }
+    /* Collapsed to the label; the button slides out on hover or keyboard focus */
+    .cta-btn {
+      max-width: 0; padding: 6px 0; margin-left: 0; opacity: 0; overflow: hidden;
+      font-size: 13px; white-space: nowrap;
+      transition: max-width .3s ease, padding .3s ease, margin .3s ease, opacity .2s ease;
+    }
+    .cta-btn svg { width: 14px; height: 14px; }
+    .cta:hover .cta-btn, .cta:focus-within .cta-btn { max-width: 200px; padding: 6px 12px; margin-left: 12px; opacity: 1; }
+  }
+  /* Touch tablets have no hover: keep the button visible */
+  @media (min-width: 768px) and (hover: none) {
+    .cta .cta-btn { max-width: 200px; padding: 6px 12px; margin-left: 12px; opacity: 1; }
+  }
 
   @media (max-width: 860px) {
     .wrap { grid-template-columns: 1fr; gap: 48px; padding-block: 32px 56px; }
@@ -209,7 +244,7 @@
     body { padding: 0; background: #fff; zoom: .8; }
     .wrap { display: block; max-width: none; padding: 0; }
     .id { position: static; gap: 14px; margin-bottom: 28px; }
-    .id-top, nav, .pdf-btn { display: none !important; }
+    .id-top, nav, .pdf-btn, .cta { display: none !important; }
     .contact li.print-only { display: grid; }
     main { gap: 32px; }
     .job, .skill-row, .lang, .facts { break-inside: avoid; }
@@ -242,7 +277,12 @@
       <li><span class="k">E-mail</span><a href="mailto:aleksanderduda1@gmail.com">aleksanderduda1@gmail.com</a></li>
       <li><span class="k">LinkedIn</span><a href="https://www.linkedin.com/in/dudu2137" target="_blank" rel="noopener">linkedin.com/in/dudu2137</a></li>
       <li class="print-only"><span class="k">WWW</span><a href="https://aleksanderduda.eu">aleksanderduda.eu</a></li>
+      <li class="print-only"><span class="k"><span data-l="en">Meeting</span><span data-l="pl">Rozmowa</span></span><a href="https://app.zencal.io/o/qa/aleksanderduda/konsultacja-wstepna">app.zencal.io/o/qa/aleksanderduda</a></li>
     </ul>
+    <div class="cta">
+      <p><span data-l="en">Interested? Let's talk!</span><span data-l="pl">Porozmawiajmy o współpracy</span></p>
+      <a class="cta-btn" href="https://app.zencal.io/o/qa/aleksanderduda/konsultacja-wstepna" target="_blank" rel="noopener" data-goatcounter-click="meeting-click" data-goatcounter-title="Schedule a meeting"><span data-l="en">Schedule a meeting</span><span data-l="pl">Umów spotkanie</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></a>
+    </div>
     <nav aria-label="CV">
       <ul>
         <li><a href="#summary"><span data-l="en">Summary</span><span data-l="pl">O mnie</span></a></li>
