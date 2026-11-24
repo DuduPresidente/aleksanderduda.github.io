@@ -188,39 +188,44 @@
   .pdf-btn:hover { color: var(--accent); border-color: var(--accent); text-decoration: none; }
   .print-only, .contact li.print-only { display: none; }
 
-  /* Meeting call-to-action: a card under the contacts on phones, a floating tile at the bottom right from tablets up */
-  .cta { justify-self: start; width: 100%; max-width: 300px; display: grid; gap: 12px; padding: 16px; border: 1px solid var(--line); border-radius: 12px; background: var(--surface); }
-  .cta p { margin: 0; font-family: var(--f-display); font-weight: 500; font-size: 18px; line-height: 1.25; }
-  .cta-btn {
-    display: inline-flex; justify-content: center; align-items: center; gap: 8px;
-    padding: 11px 16px; border-radius: 999px; background: var(--accent); color: var(--paper);
-    font-weight: 600; font-size: 15px; transition: opacity .2s;
+  /* Meeting call-to-action: a small tile floating at the bottom right showing only its label;
+     the button slides out on hover, keyboard focus or a tap on the label */
+  .id { z-index: 10; } /* the sticky identity column is a stacking context; keep the tile above the CV */
+  .cta {
+    position: fixed; z-index: 10; right: 0; bottom: calc(env(safe-area-inset-bottom, 0px) + 24px);
+    display: flex; align-items: center; padding: 8px 10px 8px 14px;
+    border: 1px solid var(--accent); border-right: 0; border-radius: 10px 0 0 10px;
+    background: var(--surface); box-shadow: 0 6px 20px rgba(0, 0, 0, .18);
   }
-  .cta-btn svg { width: 16px; height: 16px; flex: none; transition: transform .2s; }
-  .cta-btn:hover { text-decoration: none; opacity: .9; }
+  .cta-label {
+    padding: 0; border: 0; background: none; cursor: pointer; white-space: nowrap;
+    font: 500 14px/1.25 var(--f-display); color: var(--ink);
+  }
+  .cta-btn {
+    display: inline-flex; align-items: center; gap: 8px; border-radius: 999px;
+    background: var(--accent); color: var(--paper); font-weight: 600; font-size: 13px; white-space: nowrap;
+    max-width: 0; padding: 6px 0; margin-left: 0; opacity: 0; overflow: hidden;
+    transition: max-width .3s ease, padding .3s ease, margin .3s ease, opacity .2s ease;
+  }
+  .cta-btn svg { width: 14px; height: 14px; flex: none; transition: transform .2s; }
+  .cta-btn:hover { text-decoration: none; }
   .cta-btn:hover svg { transform: translateX(3px); }
+  .cta.open .cta-btn { max-width: 200px; padding: 6px 12px; margin-left: 12px; opacity: 1; }
   @media (min-width: 768px) {
-    /* The sticky identity column is a stacking context; lift it so the tile paints above the CV */
-    .id { z-index: 10; }
-    .cta {
-      position: fixed; z-index: 10; right: 0; bottom: calc(env(safe-area-inset-bottom, 0px) + 24px);
-      width: auto; max-width: none; display: flex; align-items: center; gap: 14px;
-      gap: 0; padding: 8px 10px 8px 14px; border: 1px solid var(--accent); border-right: 0; border-radius: 10px 0 0 10px;
-      box-shadow: 0 6px 20px rgba(0, 0, 0, .18);
-    }
-    .cta p { font-size: 14px; white-space: nowrap; }
-    /* Collapsed to the label; the button slides out on hover or keyboard focus */
-    .cta-btn {
-      max-width: 0; padding: 6px 0; margin-left: 0; opacity: 0; overflow: hidden;
-      font-size: 13px; white-space: nowrap;
-      transition: max-width .3s ease, padding .3s ease, margin .3s ease, opacity .2s ease;
-    }
-    .cta-btn svg { width: 14px; height: 14px; }
-    .cta:hover .cta-btn, .cta:focus-within .cta-btn { max-width: 200px; padding: 6px 12px; margin-left: 12px; opacity: 1; }
+    .cta:focus-within .cta-btn { max-width: 200px; padding: 6px 12px; margin-left: 12px; opacity: 1; }
+  }
+  @media (min-width: 768px) and (hover: hover) {
+    .cta:hover .cta-btn { max-width: 200px; padding: 6px 12px; margin-left: 12px; opacity: 1; }
   }
   /* Touch tablets have no hover: keep the button visible */
   @media (min-width: 768px) and (hover: none) {
     .cta .cta-btn { max-width: 200px; padding: 6px 12px; margin-left: 12px; opacity: 1; }
+  }
+  /* Phones: a tap on the label swaps it for the button, so the tile stays narrow */
+  @media (max-width: 767px) {
+    .cta { bottom: calc(env(safe-area-inset-bottom, 0px) + 16px); }
+    .cta.open .cta-label { display: none; }
+    .cta.open .cta-btn { margin-left: 0; }
   }
 
   @media (max-width: 860px) {
@@ -280,7 +285,7 @@
       <li class="print-only"><span class="k"><span data-l="en">Meeting</span><span data-l="pl">Rozmowa</span></span><a href="https://app.zencal.io/o/qa/aleksanderduda/konsultacja-wstepna">app.zencal.io/o/qa/aleksanderduda</a></li>
     </ul>
     <div class="cta">
-      <p><span data-l="en">Interested? Let's talk!</span><span data-l="pl">Porozmawiajmy o współpracy</span></p>
+      <button type="button" class="cta-label" aria-expanded="false"><span data-l="en">Interested? Let's talk!</span><span data-l="pl">Porozmawiajmy o współpracy</span></button>
       <a class="cta-btn" href="https://app.zencal.io/o/qa/aleksanderduda/konsultacja-wstepna" target="_blank" rel="noopener" data-goatcounter-click="meeting-click" data-goatcounter-title="Schedule a meeting"><span data-l="en">Schedule a meeting</span><span data-l="pl">Umów spotkanie</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></a>
     </div>
     <nav aria-label="CV">
@@ -552,6 +557,13 @@
   if (!start) start = (navigator.language || "en").toLowerCase().startsWith("pl") ? "pl" : "en";
   setLang(start === "pl" ? "pl" : "en");
   buttons.forEach(b => b.addEventListener("click", () => setLang(b.dataset.set)));
+
+  // Meeting tile: a tap on the label opens it, a tap anywhere else closes it
+  const cta = document.querySelector(".cta");
+  const ctaLabel = cta.querySelector(".cta-label");
+  function setCta(open) { cta.classList.toggle("open", open); ctaLabel.setAttribute("aria-expanded", String(open)); }
+  ctaLabel.addEventListener("click", () => setCta(!cta.classList.contains("open")));
+  document.addEventListener("click", e => { if (!cta.contains(e.target)) setCta(false); });
 
   // Highlight the active section in the menu
   const links = [...document.querySelectorAll("nav a")];
